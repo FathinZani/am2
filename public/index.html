@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JiyyAm Activator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #0b0c10;
+      color: #e5e7eb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+  <div class="w-full max-w-md bg-[#121318] border border-gray-800 rounded-2xl p-6 shadow-2xl my-8">
+    
+    <div class="flex flex-col items-center mb-6">
+      <div class="w-12 h-12 border-2 border-gray-300 rounded-xl flex items-center justify-center mb-3">
+        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+        </svg>
+      </div>
+      <h1 class="text-xl font-bold text-white tracking-wide">JiyyAm Activator</h1>
+      <p class="text-xs text-gray-400 mt-1">Magic link authentication</p>
+    </div>
+
+    <div class="flex items-center justify-between mb-6 px-4 relative">
+      <div class="absolute left-10 right-10 top-3 h-[1px] bg-gray-700 -z-0"></div>
+      
+      <div class="flex flex-col items-center z-10">
+        <div id="step1-badge" class="w-6 h-6 rounded-full bg-white text-black font-bold text-xs flex items-center justify-center border-2 border-white">1</div>
+        <span class="text-[10px] font-bold mt-1 text-gray-200 uppercase tracking-wider">EMAIL</span>
+      </div>
+
+      <div class="flex flex-col items-center z-10">
+        <div id="step2-badge" class="w-6 h-6 rounded-full bg-[#121318] text-gray-400 font-bold text-xs flex items-center justify-center border border-gray-600">2</div>
+        <span class="text-[10px] font-bold mt-1 text-gray-500 uppercase tracking-wider">VERIFY</span>
+      </div>
+
+      <div class="flex flex-col items-center z-10">
+        <div id="step3-badge" class="w-6 h-6 rounded-full bg-[#121318] text-gray-400 font-bold text-xs flex items-center justify-center border border-gray-600">3</div>
+        <span class="text-[10px] font-bold mt-1 text-gray-500 uppercase tracking-wider">DONE</span>
+      </div>
+    </div>
+
+    <div class="space-y-4">
+      <div>
+        <label class="block text-[11px] font-bold text-gray-400 mb-1 tracking-wider">EMAIL</label>
+        <input type="email" id="emailInput" placeholder="email@example.com" 
+               class="w-full bg-[#1a1c23] border border-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-gray-500 placeholder-gray-600">
+      </div>
+
+      <button id="sendBtn" onclick="handleSendMagicLink()" 
+              class="w-full bg-white hover:bg-gray-200 text-black font-semibold py-2.5 rounded-lg text-sm transition-all flex justify-center items-center gap-2">
+        <span>Kirim Magic Link</span>
+      </button>
+
+      <div>
+        <label class="block text-[11px] font-bold text-gray-400 mb-1 tracking-wider">MAGIC LINK</label>
+        <input type="text" id="magicLinkInput" placeholder="https://alight-creative.firebaseapp.com/..." 
+               class="w-full bg-[#1a1c23] border border-gray-800 rounded-lg px-3 py-2.5 text-sm text-gray-200 focus:outline-none focus:border-gray-500 placeholder-gray-600">
+      </div>
+
+      <button id="activateBtn" onclick="handleActivate()" 
+              class="w-full bg-white hover:bg-gray-200 text-black font-semibold py-2.5 rounded-lg text-sm transition-all flex justify-center items-center gap-2">
+        <span>Aktivasi</span>
+      </button>
+
+      <div id="loadingStatus" class="hidden text-center text-xs text-amber-400 animate-pulse font-medium"></div>
+
+      <div id="resultBox" class="hidden bg-[#16181f] border border-gray-800 rounded-lg p-3 text-xs space-y-1 text-gray-300">
+        <p id="resStatusMsg" class="text-emerald-400 font-medium mb-2">Aktivasi berhasil.</p>
+        <p><span class="text-gray-400">Email:</span> <span id="resEmail">-</span></p>
+        <p><span class="text-gray-400">UID:</span> <span id="resUid">-</span></p>
+        <p><span class="text-gray-400">User baru:</span> <span id="resNewUser">-</span></p>
+        <p><span class="text-gray-400">Premium:</span> <span id="resPremium" class="text-emerald-400 font-medium">-</span></p>
+        <p><span class="text-gray-400">Order:</span> <span id="resOrder">Jiyy Dev - tt@candes4e</span></p>
+      </div>
+    </div>
+
+    <div class="mt-6 pt-5 border-t border-gray-800/60">
+      <div class="flex items-center gap-2 mb-3 text-xs font-semibold text-gray-300">
+        <i class="fa-regular fa-file-lines text-sm"></i>
+        <span>Cara Penggunaan</span>
+      </div>
+      <ol class="text-[11px] text-gray-400 space-y-2 list-none pl-0">
+        <li class="flex gap-2"><span class="font-bold text-gray-500">1</span> <span>Masukkan email yang ingin digunakan pada kolom <strong class="text-gray-300">Email</strong>.</span></li>
+        <li class="flex gap-2"><span class="font-bold text-gray-500">2</span> <span>Tekan tombol <strong class="text-gray-300">Kirim Magic Link</strong> untuk mengirim email aktivasi.</span></li>
+        <li class="flex gap-2"><span class="font-bold text-gray-500">3</span> <span>Buka Gmail dan tunggu email masuk. Jika tidak ditemukan di Kotak Masuk, cek folder <strong class="text-gray-300">Spam</strong>.</span></li>
+        <li class="flex gap-2"><span class="font-bold text-gray-500">4</span> <span>Buka email yang dikirim dari <strong class="text-gray-300">noreply</strong>.</span></li>
+        <li class="flex gap-2"><span class="font-bold text-gray-500">5</span> <span>Tekan dan tahan <strong class="text-gray-300">"Sign In to Alight Creative"</strong>, kemudian pilih <strong class="text-gray-300">Salin / Copy</strong>.</span></li>
+        <li class="flex gap-2"><span class="font-bold text-gray-500">6</span> <span>Kembali ke halaman ini dan paste / tempel link tersebut ke kolom <strong class="text-gray-300">Magic Link</strong>.</span></li>
+        <li class="flex gap-2"><span class="font-bold text-gray-500">7</span> <span>Tekan tombol <strong class="text-gray-300">Aktivasi</strong>.</span></li>
+        <li class="flex gap-2"><span class="font-bold text-gray-500">8</span> <span>Tunggu proses hingga muncul status <strong class="text-emerald-400">✓ Berhasil</strong>.</span></li>
+      </ol>
+    </div>
+
+    <div class="mt-6 text-center text-[10px] text-gray-600">
+      JiyyAmPress
+    </div>
+
+  </div>
+
+  <script>
+    function setStatus(text, isError = false) {
+      const el = document.getElementById('loadingStatus');
+      if (!text) {
+        el.classList.add('hidden');
+      } else {
+        el.classList.remove('hidden');
+        el.className = isError ? "text-center text-xs text-red-400 font-medium" : "text-center text-xs text-amber-400 animate-pulse font-medium";
+        el.innerText = text;
+      }
+    }
+
+    async function handleSendMagicLink() {
+      const email = document.getElementById('emailInput').value.trim();
+      if (!email) return alert('Masukkan email terlebih dahulu!');
+
+      setStatus("Menyelesaikan Proof of Work & Mengirim Magic Link...");
+
+      try {
+        const res = await fetch('/api', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'send', email })
+        });
+
+        const data = await res.json();
+        setStatus(null);
+
+        if (!res.ok || data.status === false) {
+          alert('Gagal: ' + (data.message || 'Terjadi kesalahan'));
+          return;
+        }
+
+        document.getElementById('step2-badge').className = "w-6 h-6 rounded-full bg-white text-black font-bold text-xs flex items-center justify-center border-2 border-white";
+        alert(data.message || 'Magic link berhasil dikirim!');
+
+      } catch (err) {
+        setStatus("Gagal terhubung ke server", true);
+        alert("Error: " + err.message);
+      }
+    }
+
+    async function handleActivate() {
+      const email = document.getElementById('emailInput').value.trim();
+      const link = document.getElementById('magicLinkInput').value.trim();
+
+      if (!email || !link) return alert('Isi email dan magic link terlebih dahulu!');
+
+      setStatus("Memproses Verifikasi Aktivasi...");
+
+      try {
+        const res = await fetch('/api', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'verify', email, link })
+        });
+
+        const data = await res.json();
+        setStatus(null);
+
+        if (!res.ok || data.status === false) {
+          alert('Aktivasi Gagal: ' + (data.message || 'Link tidak valid'));
+          return;
+        }
+
+        document.getElementById('step3-badge').className = "w-6 h-6 rounded-full bg-white text-black font-bold text-xs flex items-center justify-center border-2 border-white";
+
+        document.getElementById('resEmail').innerText = email;
+        document.getElementById('resUid').innerText = data.uid || data.data?.uid || 'N/A';
+        document.getElementById('resNewUser').innerText = data.newUser ? 'Ya' : 'Tidak';
+        document.getElementById('resPremium').innerText = data.isPremium ? 'Aktif' : (data.status ? 'Aktif' : 'Tidak');
+        document.getElementById('resStatusMsg').innerText = data.message || "Aktivasi Berhasil!";
+        
+        document.getElementById('resultBox').classList.remove('hidden');
+
+      } catch (err) {
+        setStatus("Gagal memproses verifikasi", true);
+        alert("Error: " + err.message);
+      }
+    }
+  </script>
+
+</body>
+  </html>
+                                                                                                                                                                   
