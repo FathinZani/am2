@@ -3,18 +3,32 @@ import crypto from "crypto";
 
 const BASE = "https://www.alightpro.my.id";
 
+// Membuat instance axios dengan headers browser Android asli
 const http = axios.create({
   baseURL: BASE,
+  timeout: 15000,
   headers: {
-    "accept": "*/*",
-    "accept-language": "id-ID,id;q=0.9",
+    "accept": "application/json, text/plain, */*",
+    "accept-language": "id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7",
+    "cache-control": "no-cache",
+    "pragma": "no-cache",
+    "sec-ch-ua": '"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"',
+    "sec-ch-ua-mobile": "?1",
+    "sec-ch-ua-platform": '"Android"',
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
     "referer": `${BASE}/`,
-    "user-agent": "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/141 Mobile Safari/537.36",
+    "user-agent": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36",
   },
 });
 
 let _cookie = "";
-http.interceptors.request.use(cfg => { if (_cookie) cfg.headers["cookie"] = _cookie; return cfg; });
+http.interceptors.request.use(cfg => { 
+  if (_cookie) cfg.headers["cookie"] = _cookie; 
+  return cfg; 
+});
+
 http.interceptors.response.use(res => {
   const sc = res.headers["set-cookie"];
   if (sc) _cookie = sc.map(c => c.split(";")[0]).join("; ");
@@ -118,13 +132,14 @@ export async function handler(event, context) {
       };
     }
   } catch (error) {
+    const errorMsg = error.response?.data?.message || error.message || "Terjadi kesalahan internal server";
     return {
-      statusCode: 500,
+      statusCode: error.response?.status || 500,
       headers,
       body: JSON.stringify({
         status: false,
-        message: error.response?.data?.message || error.message || "Terjadi kesalahan internal server"
+        message: errorMsg
       })
     };
   }
-  }
+}
